@@ -1,29 +1,25 @@
-#include <Arduino.h>
 #include <Wire.h>
-
-TwoWire I2Cone = TwoWire(0); // Canal I2C especificado (0)
-int recebido = -1;           // Variável para armazenar o valor recebido
+#include <Arduino.h>
 
 void receiveEvent(int howMany)
 {
-  if (I2Cone.available())
+  while (Wire.available())
   {
-    recebido = I2Cone.read(); // Lê o valor enviado pelo mestre
-    Serial.print("Recebido: ");
-    Serial.println(recebido);
+    char receivedChar = Wire.read(); // Lê o dado recebido
+    Serial.print("Escravo 8 recebeu: ");
+    Serial.println(receivedChar);
   }
 }
 
 void setup()
 {
-  I2Cone.begin(4, 19, 18, 400000); // Configura SDA = 4, SCL = 19, 400 kHz
-  I2Cone.onReceive(receiveEvent);  // Configura a função de callback para receber dados
+  Wire.begin(8, 19, 18, 400000); // Configura este ESP32 como escravo no endereço 8
+  Wire.onReceive(receiveEvent);  // Registra o evento de recebimento
   Serial.begin(115200);
-  Serial.println("Escravo I2C Iniciado");
+  Serial.println("Escravo 8 pronto para receber dados");
 }
 
 void loop()
 {
-  // O loop fica vazio porque a função receiveEvent trata a recepção de dados.
+  delay(100); // Mantém o loop rodando
 }
-
