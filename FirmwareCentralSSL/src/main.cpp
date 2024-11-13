@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "Wire.h"
+#include "Mestre.hpp"
 
 #define I2C_DEV_ADDR 0x55
 
@@ -33,10 +34,10 @@ void loop()
 
   // TODO: Colocar comunicação abaixo na função send_speed_2_drivers
   //  Envia mensagem para o periférico
-  Wire.beginTransmission(I2C_DEV_ADDR);
+  /*Wire.beginTransmission(I2C_DEV_ADDR);
   Wire.printf("Hello World! %lu", i++);
   uint8_t error = Wire.endTransmission(true);
-  Serial.printf("Fim da transmissão: %u\n", error);
+  Serial.printf("Fim da transmissão: %u\n", error);*/
 
   // OBS.: Não precisa ler do periferico por enquanto
   //  Lê 16 bytes do periférico
@@ -56,10 +57,10 @@ std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_do
 
   std::array<float, 4> speeds;
 
-  speeds[0] = (1 / r) * (theta_dot * (-l - w) + x_dot - y_dot);
-  speeds[1] = (1 / r) * (theta_dot * (l + w) + x_dot + y_dot);
-  speeds[2] = (1 / r) * (theta_dot * (l + w) + x_dot - y_dot);
-  speeds[3] = (1 / r) * (theta_dot * (-l - w) + x_dot + y_dot);
+  speeds[0] = (1 / r) * (theta_dot * (-l - w) + x_dot - y_dot); // u1
+  speeds[1] = (1 / r) * (theta_dot * (l + w) + x_dot + y_dot);  // u2
+  speeds[2] = (1 / r) * (theta_dot * (l + w) + x_dot - y_dot);  // u3
+  speeds[3] = (1 / r) * (theta_dot * (-l - w) + x_dot + y_dot); // u4
 
   return speeds;
 }
@@ -69,4 +70,7 @@ void send_speed_2_drivers(float *goal_velocity_motor)
   // Enviar velocidades para drivers
 
   // Definir qual será o driver responsavel por u1 e u2, e qual sera responsavel por u3 e u4
+
+  Mestre::setup();
+  Mestre::loop();
 }
