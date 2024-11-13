@@ -6,16 +6,33 @@
 
 uint32_t i = 0;
 
-// Encontrar constantes
-uint32_t l = 10;
-uint32_t w = 10;
-uint32_t r = 3.5;
+// Encontrar constantes (tinham sido declaradas como uint32_t??)
+float l = 10;
+float w = 10;
+float r = 3.5;
+
+std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_dot)
+{
+  // Serial.printf("Antes das contas l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
+
+  std::array<float, 4> speeds;
+
+  speeds[0] = (1.0f / r) * (theta_dot * (-l - w) + x_dot - y_dot); // u1
+  speeds[1] = (1.0f / r) * (theta_dot * (l + w) + x_dot + y_dot);  // u2
+  speeds[2] = (1.0f / r) * (theta_dot * (l + w) + x_dot - y_dot);  // u3
+  speeds[3] = (1.0f / r) * (theta_dot * (-l - w) + x_dot + y_dot); // u4
+
+  // Serial.printf("Depois da conta l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
+
+  // Serial.printf("u1 (antes): %f, u2 (antes): %f\n", speeds[0], speeds[1]);
+
+  return speeds;
+}
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial.setDebugOutput(true);
-  Wire.begin(); // Inicia comunicação I2C
+  Mestre::setup();
+  // Inicia comunicação I2C
   // TODO: Fazer setup do WiFi
 }
 
@@ -56,25 +73,14 @@ void loop()
   float y_dot = 2.0;
   float theta_dot = 3.0;
 
-  std::array<float, 4> speeds = calc_speed_2_motor(x_dot, y_dot, theta_dot);
-  float u1 = speeds[0];
-  float u2 = speeds[1];
-  float u3 = speeds[2];
-  float u4 = speeds[3];
+  std::array<float, 4> speeds_result = calc_speed_2_motor(x_dot, y_dot, theta_dot);
+  float u1 = speeds_result[0];
+  float u2 = speeds_result[1];
+  float u3 = speeds_result[2];
+  float u4 = speeds_result[3];
 
-  Mestre::setup();
+  // Serial.printf("x_dot: %f, y_dot: %f, theta_dot: %f\n", x_dot, y_dot, theta_dot);
+  // Serial.printf("u1 (depois): %f, u2 (depois): %f\n", u1, u2);
+
   Mestre::send_speed_2_driver(addr_driver1, u1, u2);
-}
-
-std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_dot)
-{
-
-  std::array<float, 4> speeds;
-
-  speeds[0] = (1 / r) * (theta_dot * (-l - w) + x_dot - y_dot); // u1
-  speeds[1] = (1 / r) * (theta_dot * (l + w) + x_dot + y_dot);  // u2
-  speeds[2] = (1 / r) * (theta_dot * (l + w) + x_dot - y_dot);  // u3
-  speeds[3] = (1 / r) * (theta_dot * (-l - w) + x_dot + y_dot); // u4
-
-  return speeds;
 }

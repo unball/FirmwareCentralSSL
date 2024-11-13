@@ -1,10 +1,7 @@
 #include "Mestre.hpp"
 
-namespace Receptor
+namespace Mestre
 {
-
-    uint16_t velocidade_M0 = 0;
-    uint16_t velocidade_M1 = 0;
 
     void setup()
     {
@@ -32,3 +29,4 @@ namespace Receptor
     void loop()
     {
     }
+}
