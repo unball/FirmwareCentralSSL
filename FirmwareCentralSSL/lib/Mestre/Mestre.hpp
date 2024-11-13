@@ -10,7 +10,7 @@ namespace Mestre
 {
     void loop();
     void setup();
-    void send_speed_2_driver_1();
+    void send_speed_2_driver(uint8_t addr, float u1, float u2);
 }
 
 #endif

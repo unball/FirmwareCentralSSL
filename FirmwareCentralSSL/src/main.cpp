@@ -37,7 +37,7 @@ void loop()
   /*Wire.beginTransmission(I2C_DEV_ADDR);
   Wire.printf("Hello World! %lu", i++);
   uint8_t error = Wire.endTransmission(true);
-  Serial.printf("Fim da transmissão: %u\n", error);*/
+  Serial.printf("Fim da transmissão: %u\n", error);
 
   // OBS.: Não precisa ler do periferico por enquanto
   //  Lê 16 bytes do periférico
@@ -49,7 +49,21 @@ void loop()
     uint8_t temp[bytesReceived];
     Wire.readBytes(temp, bytesReceived);
     log_print_buf(temp, bytesReceived); // Exibe buffer
-  }
+  }*/
+
+  // valores arbitários
+  float x_dot = 1.0;
+  float y_dot = 2.0;
+  float theta_dot = 3.0;
+
+  std::array<float, 4> speeds = calc_speed_2_motor(x_dot, y_dot, theta_dot);
+  float u1 = speeds[0];
+  float u2 = speeds[1];
+  float u3 = speeds[2];
+  float u4 = speeds[3];
+
+  Mestre::setup();
+  Mestre::send_speed_2_driver(addr_driver1, u1, u2);
 }
 
 std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_dot)
@@ -63,14 +77,4 @@ std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_do
   speeds[3] = (1 / r) * (theta_dot * (-l - w) + x_dot + y_dot); // u4
 
   return speeds;
-}
-
-void send_speed_2_drivers(float *goal_velocity_motor)
-{
-  // Enviar velocidades para drivers
-
-  // Definir qual será o driver responsavel por u1 e u2, e qual sera responsavel por u3 e u4
-
-  Mestre::setup();
-  Mestre::loop();
 }
