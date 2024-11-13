@@ -83,4 +83,5 @@ void loop()
   // Serial.printf("u1 (depois): %f, u2 (depois): %f\n", u1, u2);
 
   Mestre::send_speed_2_driver(addr_driver1, u1, u2);
+  Mestre::send_speed_2_driver(addr_driver2, u3, u4);
 }
