@@ -1,71 +1,63 @@
 #include "wifi.hpp"
+#include "esp_wifi.h"
 
-/* Wi-Fi */ 
-const int communicationTimeout = 500000;
-const int resetTimeout = 4000000;
-const float MAX_POWER = 10.0;
+namespace Wifi {
 
-namespace Wifi{
-
-    uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+    const int communicationTimeout = 500000;
+    const int resetTimeout = 4000000;     
+    volatile uint32_t lastReceived = 0;
 
     rcv_message temp_msg;
     rcv_message msg;
 
-    volatile static uint32_t lastReceived;
-
-    void setup(){
+    void setup() {
         WiFi.mode(WIFI_STA);
-        WiFi.disconnect();
+
+         Serial.println(WiFi.softAPmacAddress()); // Inclua essa linha no projeto para mostrar o MAC do ESP32 no monitor serial
+        esp_wifi_set_promiscuous(true);
+        esp_wifi_set_channel(14, WIFI_SECOND_CHAN_NONE);
+        esp_wifi_set_promiscuous(false);
+
         if (esp_now_init() != ESP_OK) {
-            #if WEMOS_DEBUG
-            Serial.println("Erro ao inicializar o ESP-NOW");
-            #endif
+            Serial.println("Erro ao inicializar ESP-NOW");
             return;
         }
-        WiFi.setTxPower(WIFI_POWER_19_5dBm);
-        esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));            
+
+        esp_now_register_recv_cb(OnDataRecv);
     }
 
-    // Callback function, execute when message is received via Wi-Fi
-    void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len){
+    void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
         memcpy(&temp_msg, incomingData, sizeof(temp_msg));
-	    lastReceived = micros();
-        
-        //verifica o checksum
-        if(temp_msg.checksum == temp_msg.vx + temp_msg.vy + temp_msg.w){
+        lastReceived = micros();
+
+        // Verificar checksum
+        int16_t calculatedChecksum = temp_msg.vx + temp_msg.vy + temp_msg.w;
+        if (temp_msg.checksum == calculatedChecksum) {
             msg = temp_msg;
+
+            if (msg.vx == 0 && msg.vy == 1 && msg.w == 0) {
+                Serial.println("Comando recebido: Frente (W)");
+            } else if (msg.vx == -1 && msg.vy == 0 && msg.w == -1) {
+                Serial.println("Comando recebido: Esquerda (A)");
+            } else if (msg.vx == 0 && msg.vy == -1 && msg.w == 0) {
+                Serial.println("Comando recebido: Ré (S)");
+            } else if (msg.vx == 1 && msg.vy == 0 && msg.w == 0) {
+                Serial.println("Comando recebido: Direita (D)");
+            } else {
+                Serial.println("Comando desconhecido recebido");
+            }
+        } else {
+            Serial.println("Erro de checksum");
         }
-        else{
-            #if WEMOS_DEBUG
-                Serial.println("###################");
-		        Serial.println("###################");
-                Serial.println("ERRO DE CHECKSUM");
-                Serial.println("###################");
-                Serial.println("###################");
-            #endif
-        }
-        // TODO: lastReceived deveria estar aqui ou em receiveData?
     }
 
-    /// @brief Receive data copying from temp struct to global struct
-    /// @param v reference to the linear velocity
-    /// @param w reference to the angular velocity
-    void receiveData(int16_t *vx,int16_t *vy, int16_t *w){
-        // Demultiplexing and decoding the velocities and constants
-        *vx  = msg.vx;
-        *vx  = msg.vy;
-        *w  = msg.w;
+    void receiveData(int16_t *vx, int16_t *vy, int16_t *w) {
+        *vx = msg.vx;
+        *vy = msg.vy;
+        *w = msg.w;
     }
 
-    bool isCommunicationLost(){
-        if((micros() - lastReceived) > communicationTimeout){
-			// Communication probably failed
-			if((micros() - lastReceived) > resetTimeout)
-				ESP.restart();
-            return true;
-		}
-        return false;
+    bool isCommunicationLost() {
+        return (micros() - lastReceived) > communicationTimeout;
     }
-
 }
