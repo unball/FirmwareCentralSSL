@@ -11,6 +11,39 @@ float l = 10;
 float w = 10;
 float r = 3.5;
 
+float u1 = 0;
+float u2 = 0;
+float u3 = 0;
+float u4 = 0;
+std::array<float, 4> speeds_result;
+
+void detectKeyPressAndSend() {
+    if (Serial.available()) {
+        String input = Serial.readStringUntil('\n');  // Lê até uma nova linha ou ENTER
+
+        input.trim();  // Remove espaços e quebras de linha extras
+
+        // Interpreta o comando
+        if (input == "W" || input == "w") {  // Frente
+            speeds_result = calc_speed_2_motor(1, 0, 0);
+            Serial.println("Comando: Frente");
+        } else if (input == "A" || input ==  "a") {  // Esquerda
+            speeds_result = calc_speed_2_motor(0, 1, 0);
+            Serial.println("Comando: Esquerda");
+        } else if (input == "S" || input ==  "s") {  // Ré
+            speeds_result = calc_speed_2_motor(-1, 0, 0);
+            Serial.println("Comando: Ré");
+        } else if (input == "D" || input ==  "d") {  // Direita
+            speeds_result = calc_speed_2_motor(0, -1, 0);
+            Serial.println("Comando: Direita");
+        } else {
+            Serial.println("Para");
+            speeds_result = calc_speed_2_motor(0, 0, 0);
+        }
+
+    }
+}
+
 std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_dot)
 {
   // Serial.printf("Antes das contas l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
@@ -40,6 +73,15 @@ void loop()
 {
   // TODO: Remover delay
   delay(5000);
+
+  detectKeyPressAndSend();
+  u1 = speeds_result[0];
+  u2 = speeds_result[1];
+  u3 = speeds_result[2];
+  u4 = speeds_result[3];
+
+  Mestre::send_speed_2_driver(addr_driver1, u1, u2);
+  Mestre::send_speed_2_driver(addr_driver2, u3, u4);
 
   // TODO: Recebe velocidades x,y e w do wifi
 
