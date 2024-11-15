@@ -11,7 +11,6 @@ namespace Wifi{
     uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
     rcv_message temp_msg;
-    rcv_message msg;
 
     volatile static uint32_t lastReceived;
 
@@ -38,17 +37,15 @@ namespace Wifi{
         memcpy(&temp_msg, incomingData, sizeof(temp_msg));
 	    lastReceived = micros();
 
-        msg = temp_msg;
-        // TODO: lastReceived deveria estar aqui ou em receiveData?
     }
     /// @brief Receive data copying from temp struct to global struct
     /// @param v reference to the linear velocity
     /// @param w reference to the angular velocity
     void receiveData(int16_t *vx, int16_t *vy, int16_t *w){
             // Demultiplexing and decoding the velocities and constants
-            *vx  = msg.vx;
-            *vy  = msg.vy;
-            *w  = msg.w;
+            *vx  = temp_msg.vx;
+            *vy  = temp_msg.vy;
+            *w  = temp_msg.w;
     }
 
     bool isCommunicationLost(){
