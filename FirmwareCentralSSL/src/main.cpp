@@ -43,17 +43,17 @@ void detectKeyPressAndSend() {
         input.trim();  // Remove espaços e quebras de linha extras
 
         // Interpreta o comando
-        if (input == "W" || input == "w") {  // Frente
-            speeds_result = calc_speed_2_motor(1, 0, 0);
+        if (input == "W" ) {  // Frente
+            speeds_result = calc_speed_2_motor(20, 0, 0);
             Serial.println("Comando: Frente");
-        } else if (input == "A" || input ==  "a") {  // Esquerda
-            speeds_result = calc_speed_2_motor(0, 1, 0);
+        } else if (input == "A" ) {  // Esquerda
+            speeds_result = calc_speed_2_motor(0, 20, 0);
             Serial.println("Comando: Esquerda");
-        } else if (input == "S" || input ==  "s") {  // Ré
-            speeds_result = calc_speed_2_motor(-1, 0, 0);
+        } else if (input == "S" ) {  // Ré
+            speeds_result = calc_speed_2_motor(-20, 0, 0);
             Serial.println("Comando: Ré");
-        } else if (input == "D" || input ==  "d") {  // Direita
-            speeds_result = calc_speed_2_motor(0, -1, 0);
+        } else if (input == "D" ) {  // Direita
+            speeds_result = calc_speed_2_motor(0, -20, 0);
             Serial.println("Comando: Direita");
         } else {
             Serial.println("Para");
@@ -73,7 +73,6 @@ void loop()
 {
   // TODO: Remover delay
   delay(5000);
-
   detectKeyPressAndSend();
   u1 = speeds_result[0];
   u2 = speeds_result[1];
