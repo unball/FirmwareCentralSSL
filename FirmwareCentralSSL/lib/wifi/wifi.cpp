@@ -38,18 +38,7 @@ namespace Wifi{
         memcpy(&temp_msg, incomingData, sizeof(temp_msg));
 	    lastReceived = micros();
 
-        if(temp_msg.checksum == temp_msg.vx + temp_msg.vy + temp_msg.w){
-            msg = temp_msg;
-        }
-        else{
-            #if WEMOS_DEBUG
-                Serial.println("###################");
-		        Serial.println("###################");
-                Serial.println("ERRO DE CHECKSUM");
-                Serial.println("###################");
-                Serial.println("###################");
-            #endif
-        }
+        msg = temp_msg;
         // TODO: lastReceived deveria estar aqui ou em receiveData?
     }
     /// @brief Receive data copying from temp struct to global struct
