@@ -17,6 +17,25 @@ float u3 = 0;
 float u4 = 0;
 std::array<float, 4> speeds_result;
 
+std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_dot)
+{
+  // Serial.printf("Antes das contas l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
+
+  std::array<float, 4> speeds;
+
+  speeds[0] = (1.0f / r) * (theta_dot * (-l - w) + x_dot - y_dot); // u1
+  speeds[1] = (1.0f / r) * (theta_dot * (l + w) + x_dot + y_dot);  // u2
+  speeds[2] = (1.0f / r) * (theta_dot * (l + w) + x_dot - y_dot);  // u3
+  speeds[3] = (1.0f / r) * (theta_dot * (-l - w) + x_dot + y_dot); // u4
+
+  // Serial.printf("Depois da conta l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
+
+  // Serial.printf("u1 (antes): %f, u2 (antes): %f\n", speeds[0], speeds[1]);
+
+  return speeds;
+}
+
+
 void detectKeyPressAndSend() {
     if (Serial.available()) {
         String input = Serial.readStringUntil('\n');  // Lê até uma nova linha ou ENTER
@@ -43,25 +62,6 @@ void detectKeyPressAndSend() {
 
     }
 }
-
-std::array<float, 4> calc_speed_2_motor(float x_dot, float y_dot, float theta_dot)
-{
-  // Serial.printf("Antes das contas l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
-
-  std::array<float, 4> speeds;
-
-  speeds[0] = (1.0f / r) * (theta_dot * (-l - w) + x_dot - y_dot); // u1
-  speeds[1] = (1.0f / r) * (theta_dot * (l + w) + x_dot + y_dot);  // u2
-  speeds[2] = (1.0f / r) * (theta_dot * (l + w) + x_dot - y_dot);  // u3
-  speeds[3] = (1.0f / r) * (theta_dot * (-l - w) + x_dot + y_dot); // u4
-
-  // Serial.printf("Depois da conta l: %f, w: %f, r: %f, x_dot: %f, y_dot: %f, theta_dot: %f\n", l, w, r, x_dot, y_dot, theta_dot);
-
-  // Serial.printf("u1 (antes): %f, u2 (antes): %f\n", speeds[0], speeds[1]);
-
-  return speeds;
-}
-
 void setup()
 {
   Mestre::setup();
