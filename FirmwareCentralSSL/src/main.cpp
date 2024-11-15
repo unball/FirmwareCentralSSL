@@ -41,7 +41,7 @@ void setup()
 void loop()
 {
   // TODO: Remover delay
-  delay(5000);
+  delay(2000);
 
   // TODO: Recebe velocidades x,y e w do wifi
   int16_t vx;
@@ -49,10 +49,12 @@ void loop()
   int16_t w;
 
   Wifi::receiveData(&vx, &vy, &w);
+  Serial.printf("before vx %d vy %d w %d \n", vx, vy, w);
 
   vx = ((float)vx) * 2.0 / 32767;
   vy = ((float)vy) * 2.0 / 32767;
   w  = ((float)w) * 64.0 / 32767;
+  Serial.printf("after vx %d vy %d w %d \n", vx, vy, w);
 
 
   // TODO: Traduz velocidades x, y e w para velocidade das rodas u1,u2,u3 e u4
