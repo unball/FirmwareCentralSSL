@@ -7,7 +7,7 @@
 
 namespace Utils
 {
-    float getADCReadingsAverage(uint8_t pin);
+    float getADCReadingsAverage(uint8_t pin, float valueVoltage);
 }
 
 #endif // UTILS_H

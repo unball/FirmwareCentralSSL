@@ -9,10 +9,7 @@ namespace MedicaoBateria
     }
 
     float getBatteryCharge(){
-        float batteryADCValue = Utils::getADCReadingsAverage(pins::MEDICAO_BATERIA);
-        float batteryValue = 0;
-
-        batteryValue = (batteryADCValue/constantes::RESOLUCAO_ADC_ESP32) * constantes::MEDICAO_BAT_MAX_VALUE;
+        float batteryValue = Utils::getADCReadingsAverage(pins::MEDICAO_BATERIA, constantes::MEDICAO_BAT_MAX_VALUE);
 
         return batteryValue;
     }
@@ -29,7 +26,7 @@ namespace MedicaoBateria
 
         float percentage = (batteryLevelRead/constantes::MEDICAO_BAT_MAX_VALUE) * 100;
 
-        if(percentage <= 96.00){
+        if(percentage <= 98.5){
             LEDs::turnLEDOnOff(true,pins::LED_RGB_VERMELHO);
         }else{
             LEDs::turnLEDOnOff(false,pins::LED_RGB_VERMELHO);

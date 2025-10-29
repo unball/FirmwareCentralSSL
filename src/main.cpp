@@ -18,5 +18,11 @@ void loop()
   // Le bateria a cada X ms
   // Envia bateria pro driver -> se n teve atualização no valor, envia valor passado
   // Se bateria < 96% => acende LED pra alertar bateria baixa
-  MedicaoBateria::alertLowBattery(2.15);
+  float bat = MedicaoBateria::getBatteryCharge();
+  float driver = MedicaoBateria::sendDataDrivers(bat);
+
+  MedicaoBateria::alertLowBattery(bat);
+
+  delay(500);
+
 }

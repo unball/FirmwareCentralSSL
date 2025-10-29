@@ -9,7 +9,7 @@ namespace constantes {
 
     // Parametros Medicao Bateria
     constexpr float MEDICAO_BAT_MAX_VALUE = 2.15;
-    constexpr float MEDICAO_BAT_MAX_VALUE_TRANSFORMATION = 12.4;
+    constexpr float MEDICAO_BAT_MAX_VALUE_TRANSFORMATION = 12.2;
 }
 
 
