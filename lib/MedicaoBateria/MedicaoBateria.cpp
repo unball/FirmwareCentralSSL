@@ -29,7 +29,7 @@ namespace MedicaoBateria
 
         float percentage = (batteryLevelRead/constantes::MEDICAO_BAT_MAX_VALUE) * 100;
 
-        if(percentage <= 96){
+        if(percentage <= 96.00){
             LEDs::turnLEDOnOff(true,pins::LED_RGB_VERMELHO);
         }else{
             LEDs::turnLEDOnOff(false,pins::LED_RGB_VERMELHO);
