@@ -25,11 +25,15 @@ namespace MedicaoBateria
         return batteryLevelToDriver;
     }
 
-    float alertLowBattery(float batteryLevelRead){
-        // % da bateria
+    void alertLowBattery(float batteryLevelRead){
+
         float percentage = (batteryLevelRead/constantes::MEDICAO_BAT_MAX_VALUE) * 100;
 
-        return percentage;
+        if(percentage <= 96){
+            LEDs::turnLEDOnOff(true,pins::LED_RGB_VERMELHO);
+        }else{
+            LEDs::turnLEDOnOff(false,pins::LED_RGB_VERMELHO);
+        }
 
     }
 }
