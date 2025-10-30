@@ -3,7 +3,8 @@
 #include "LEDs.hpp"
 #include "I2CDriver.hpp"
 
-#define I2C_DEV_ADDR 0x55
+#define I2C_DEV_ADDR_0 0x76
+#define I2C_DEV_ADDR_1 0x55
 
 void setup()
 {
@@ -28,7 +29,9 @@ void loop()
 
   unsigned long t0 = micros();
 
-  I2CDriver::sendInfoToDriver(I2C_DEV_ADDR, 10, 0.001);
+  I2CDriver::sendInfoToDriver(I2C_DEV_ADDR_0, 10, 0.001);
+
+  I2CDriver::sendInfoToDriver(I2C_DEV_ADDR_1, 10, 0.001);
 
   delay(500);
 

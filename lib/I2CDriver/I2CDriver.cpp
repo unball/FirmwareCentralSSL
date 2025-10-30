@@ -22,9 +22,9 @@ namespace I2CDriver
         Serial.print("Enviando para driver no endereço ");
         Serial.print(addr, HEX);
         Serial.print(": u1 = ");
-        Serial.print(u1);
+        Serial.print(u1,3);
         Serial.print(", u2 = ");
-        Serial.println(u2);
+        Serial.println(u2,3);
     }
 
 }
