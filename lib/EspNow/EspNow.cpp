@@ -28,6 +28,11 @@ namespace EspNow{
         WiFi.disconnect();
         WiFi.mode(WIFI_STA);
 
+        if(isDebugModeActive){
+            String message = "MacAdress => " + WiFi.macAddress();
+            Utils::printMessageSetupDebug(isModuleDebugModeActive, moduleName, message);
+        }
+
         if(esp_now_init() != ESP_OK){
             Utils::printMessageSetupDebug(isModuleDebugModeActive, moduleName, "Erro ao inicializar ESP NOW");
         }

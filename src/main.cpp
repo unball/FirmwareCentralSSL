@@ -4,18 +4,19 @@
 #include "I2CDriver.hpp"
 #include "RobotMove.hpp"
 #include "EspNow.hpp"
-
-const bool activeAllDebug = constants::DEBUG_EXECUTION_MODE;
+#include "ExecutionManager.hpp"
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(constants::SERIAL_FREQUENCY);
 
-  BatteryMeasurement::setup(activeAllDebug);
-  LEDs::setup(activeAllDebug);
-  I2CDriver::setup(activeAllDebug);
-  RobotMove::setup(activeAllDebug);
-  EspNow::setup(activeAllDebug, constants::ROBOT_NUMBER);
+  ExecutionManager::setDebugModeAll();
+
+  BatteryMeasurement::setup(ExecutionManager::DEBUG_BATTERY_MEASUREMENT);
+  LEDs::setup(ExecutionManager::DEBUG_LEDs);
+  I2CDriver::setup(ExecutionManager::DEBUG_I2CDRIVERS);
+  RobotMove::setup(ExecutionManager::DEBUG_ROBOT_MOVE);
+  EspNow::setup(ExecutionManager::DEBUG_ESPNOW, constants::ROBOT_NUMBER);
   // setup sensor IR
   // setup IMU
 }

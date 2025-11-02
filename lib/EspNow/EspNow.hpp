@@ -13,6 +13,12 @@
 namespace EspNow
 {   
 
+    void setup(boolean isDebugModeActive, uint8_t robotNumber);
+    void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
+    void demultiplexReceivedMessage(float linearVelocity_x,float linearVelocity_y, float angularVelocity);
+    bool isCommunicationLost();
+    void tokenize(const uint8_t *data,int len);
+
     struct messageReceived{
         int8_t robotId;
         float linearVelocity_x;
@@ -20,13 +26,6 @@ namespace EspNow
         float angularVelocity;
         int32_t checksum;
     };
-
-    void setup(boolean isDebugModeActive, uint8_t robotNumber);
-    void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
-    void demultiplexReceivedMessage(float linearVelocity_x,float linearVelocity_y, float angularVelocity);
-    bool isCommunicationLost();
-    void tokenize(const uint8_t *data,int len);
-
     static uint8_t robotNumberId;
     static messageReceived message;
 

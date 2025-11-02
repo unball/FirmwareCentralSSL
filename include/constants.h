@@ -4,10 +4,14 @@
 
 namespace constants {
 
+    // Robot parameters
     constexpr uint8_t ROBOT_NUMBER = 0;
-
+    constexpr float ROBOT_WHEELS_RADIUS = 0; // mm?
+    constexpr float ROBOT_WHEELS_ANGLE_FRONT = 40; // graus
+    constexpr float ROBOT_WHEELS_ANGLE_BACK = 45; // graus
+    
     // Execution parameters
-    constexpr boolean DEBUG_EXECUTION_MODE = true;
+    constexpr int SERIAL_FREQUENCY = 115200;
 
     // ESP32 parameters
     constexpr uint16_t RESOLUTION_ADC_ESP32 = 4095;

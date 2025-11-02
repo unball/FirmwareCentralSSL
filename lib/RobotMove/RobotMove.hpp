@@ -13,13 +13,13 @@ namespace RobotMove
     void setRobotVelocities(float linearVelocity_x,float linearVelocity_y, float angularVelocity);
 
     // Wheel distance from robot center mass
-    static float R;
+    static float R = constants::ROBOT_WHEELS_RADIUS;
 
     // Wheel angle front
-    static float phi = 40;
+    static float phi = radians(constants::ROBOT_WHEELS_ANGLE_FRONT);
 
     // Wheel angle back
-    static float theta = 45;
+    static float theta = radians(constants::ROBOT_WHEELS_ANGLE_BACK);
 
     // Velocity Coupling Matrix
     static float D[4][3];
