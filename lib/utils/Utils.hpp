@@ -13,6 +13,7 @@ namespace Utils
     void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* variables, float var1);
     void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* message);
     void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, uint8_t pin, char* message);
+    void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* variables, float var1, float var2, float var3, float var4);
 }
 
 #endif // UTILS_H

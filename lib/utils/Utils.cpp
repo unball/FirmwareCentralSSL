@@ -85,4 +85,26 @@ namespace Utils
         
     }
 
+    void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* variables, float var1, float var2, float var3, float var4){
+        
+        if(isDebugModeActive){
+            Serial.print("Executing ");
+            Serial.print("\t");
+            Serial.print(moduleName);
+            Serial.print("-");
+            Serial.print(variables);
+            Serial.print(": ");
+            Serial.print(var1,4);
+            Serial.print("\t");
+            Serial.print(var2,4);
+            Serial.print("\t");
+            Serial.print(var3,4);
+            Serial.print("\t");
+            Serial.println(var4,4);
+
+
+        }
+
+    }
+
 }

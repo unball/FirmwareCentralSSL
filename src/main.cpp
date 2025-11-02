@@ -13,6 +13,9 @@ void setup()
   LEDs::setup(activeAllDebug);
   I2CDriver::setup(activeAllDebug);
   // setup wiFi
+  // setup sensor IR
+  // setup IMU
+  // setup RobotMove
 }
 
 void loop()
