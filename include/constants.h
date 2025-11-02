@@ -4,6 +4,8 @@
 
 namespace constants {
 
+    constexpr uint8_t ROBOT_NUMBER = 0;
+
     // Execution parameters
     constexpr boolean DEBUG_EXECUTION_MODE = true;
 

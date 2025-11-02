@@ -2,6 +2,8 @@
 #include "BatteryMeasurement.hpp"
 #include "LEDs.hpp"
 #include "I2CDriver.hpp"
+#include "RobotMove.hpp"
+#include "EspNow.hpp"
 
 const bool activeAllDebug = constants::DEBUG_EXECUTION_MODE;
 
@@ -12,10 +14,10 @@ void setup()
   BatteryMeasurement::setup(activeAllDebug);
   LEDs::setup(activeAllDebug);
   I2CDriver::setup(activeAllDebug);
-  // setup wiFi
+  RobotMove::setup(activeAllDebug);
+  EspNow::setup(activeAllDebug, constants::ROBOT_NUMBER);
   // setup sensor IR
   // setup IMU
-  // setup RobotMove
 }
 
 void loop()

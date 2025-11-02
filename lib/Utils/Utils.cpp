@@ -27,6 +27,19 @@ namespace Utils
 
     }
 
+    void printMessageSetupDebug(boolean isDebugModeActive, char* moduleName, char* message){
+        
+        if(isDebugModeActive){
+            Serial.print("Setup Error: ");
+            Serial.print("\t");
+            Serial.print(moduleName);
+            Serial.print("\t - ");
+            Serial.println(message);
+
+        }
+
+    }
+
     void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* variables, float var1, float var2, float var3){
         
         if(isDebugModeActive){

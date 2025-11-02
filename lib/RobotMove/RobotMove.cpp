@@ -46,4 +46,10 @@ namespace RobotMove{
         Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Velocidades das rodas", wheelVelocities[0], wheelVelocities[1], wheelVelocities[2], wheelVelocities[3]);
         return wheelVelocities;
     }
+
+    void setRobotVelocities(float linearVelocity_x,float linearVelocity_y, float angularVelocity){
+        robotVelocities[0] = linearVelocity_x;
+        robotVelocities[1] = linearVelocity_y;
+        robotVelocities[2] = angularVelocity;
+    }
 }

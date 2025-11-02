@@ -10,6 +10,7 @@ namespace RobotMove
 {
     void setup(boolean isDebugModeActive);
     float* calculateWheelVelocities(float* euclideanVelocities);
+    void setRobotVelocities(float linearVelocity_x,float linearVelocity_y, float angularVelocity);
 
     // Wheel distance from robot center mass
     static float R;
@@ -22,6 +23,8 @@ namespace RobotMove
 
     // Velocity Coupling Matrix
     static float D[4][3];
+
+    static float robotVelocities[3];
 
     static boolean isModuleDebugModeActive;
     static char* moduleName = "RobotMove";
