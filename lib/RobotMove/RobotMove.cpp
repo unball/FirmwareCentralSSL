@@ -32,17 +32,17 @@ namespace RobotMove{
         Utils::printMessageSetupDebug(isModuleDebugModeActive, moduleName);
     }
 
-    float* calculateWheelVelocities(float* euclideanVelocities){
+    float* calculateWheelVelocities(){
         float* wheelVelocities = new float[4];
-        euclideanVelocities[2] = R*euclideanVelocities[2];
+        robotVelocities[2] = R*robotVelocities[2];
 
         for(int i=0; i<4; i++){
             for(int j=0; j<3; j++){
-                wheelVelocities[i] = D[i][j]*euclideanVelocities[j];
+                wheelVelocities[i] = D[i][j]*robotVelocities[j];
             }
         }
 
-        Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Velocidades do robô", euclideanVelocities[0], euclideanVelocities[1], euclideanVelocities[2]);
+        Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Velocidades do robô", robotVelocities[0], robotVelocities[1], robotVelocities[2]);
         Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Velocidades das rodas", wheelVelocities[0], wheelVelocities[1], wheelVelocities[2], wheelVelocities[3]);
         return wheelVelocities;
     }

@@ -9,7 +9,7 @@
 namespace RobotMove
 {
     void setup(boolean isDebugModeActive);
-    float* calculateWheelVelocities(float* euclideanVelocities);
+    float* calculateWheelVelocities();
     void setRobotVelocities(float linearVelocity_x,float linearVelocity_y, float angularVelocity);
 
     // Wheel distance from robot center mass

@@ -16,15 +16,30 @@ namespace I2CDriver
     
     }
 
-    void sendInfoToDriver(uint8_t address, float wheelVelocity0, float wheelVelocity1){
+    void sendInfoToDriver(uint8_t driverNumber, float* wheelsVelocities){
         
+        uint8_t address;
+        uint8_t firstWheel;
+        uint8_t secondWheel;
+
+        if(driverNumber == 0){
+            address = constants::I2C_DRIVER_ADDRESS_0;
+            firstWheel = 0;
+            secondWheel = 1;
+        }else{
+            address = constants::I2C_DRIVER_ADDRESS_1;
+            firstWheel = 2;
+            secondWheel = 3;
+        }
+
+
         Wire.beginTransmission(address);
 
-        Wire.write(reinterpret_cast<uint8_t *>(&wheelVelocity0), sizeof(float));
-        Wire.write(reinterpret_cast<uint8_t *>(&wheelVelocity1), sizeof(float));
+        Wire.write(reinterpret_cast<uint8_t *>(&wheelsVelocities[firstWheel]), sizeof(float));
+        Wire.write(reinterpret_cast<uint8_t *>(&wheelsVelocities[secondWheel]), sizeof(float));
 
         Wire.endTransmission();
-        Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Driver address and wheels velocities [rad/s] ", address, wheelVelocity0, wheelVelocity1);
+        Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Driver address and wheels velocities [rad/s] ", address, wheelsVelocities[firstWheel], wheelsVelocities[secondWheel]);
     }
 
 }

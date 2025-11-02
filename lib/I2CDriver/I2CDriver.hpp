@@ -11,7 +11,7 @@
 namespace I2CDriver
 {
     void setup(boolean isDebugModeActive);
-    void sendInfoToDriver(uint8_t addr, float wheelVelocity0, float wheelVelocity1);
+    void sendInfoToDriver(uint8_t driverNumber, float* wheelsVelocities);
 
     static boolean isModuleDebugModeActive;
     static char* moduleName = "I2CDriver";
