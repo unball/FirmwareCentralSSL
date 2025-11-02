@@ -26,6 +26,7 @@ float batteryVoltageLevel = 0;
 float* wheels_velocities;
 float* wheels_velocities_driver_0;
 float* wheels_velocities_driver_1;
+EspNow::messageReceived messageRcv;
 
 boolean isBallClose;
 
@@ -64,16 +65,15 @@ void loop()
     }
   }
 
-  if(ExecutionManager::EXECUTE_ESP_NOW){
-    if(actualTimestamp - previousTimestamp_espnow > ExecutionManager::SAMPLE_TIME_ESP_NOW){
-      // recebe mensagem do WiFi
-        // EspNow::message; -> é pra ter os valores recebidos 
-      // atualiza valores
-        // RobotMove::robotVelocities -> valores atualizados
+  // Nao sei se faz sentido isso no loop por conta do jeito q fiz ->
+  // if(ExecutionManager::EXECUTE_ESP_NOW){
+  //   if(actualTimestamp - previousTimestamp_espnow > ExecutionManager::SAMPLE_TIME_ESP_NOW){
+  //     // recebe mensagem do WiFi
+  //     messageRcv = EspNow::message; // -> é pra ter os valores recebidos 
 
-      previousTimestamp_espnow = actualTimestamp;
-    }
-  }
+  //     previousTimestamp_espnow = actualTimestamp;
+  //   }
+  // }
 
   // TODO: 
   if(ExecutionManager::EXECUTE_IMU_SENSOR){
@@ -96,7 +96,7 @@ void loop()
 
   if(ExecutionManager::EXECUTE_I2CDRIVERS){
     if(actualTimestamp - previousTimestamp_i2cdriver > ExecutionManager::SAMPLE_TIME_I2CDRIVERS){
-      // envia velocidade para as rodas
+
       I2CDriver::sendInfoToDriver(0, wheels_velocities);
       I2CDriver::sendInfoToDriver(1, wheels_velocities);
 
