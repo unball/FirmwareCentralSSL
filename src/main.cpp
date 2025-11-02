@@ -22,6 +22,17 @@ void setup()
 
 void loop()
 {
+  // a cada 500ms verifica nivel da bateria 
+    // alerta se for necessario
 
+  // verifica estado sensor IR a cada X s
+    // ativa chute se tiver nas condições
+
+  // recebe mensagem do WiFi a cada X s
+  // recebe velocidade angular da IMU
+  // executa controle a cada X s
+    // calcula velocidade das rodas
+
+  // envia velocidade para as rodas
 
 }

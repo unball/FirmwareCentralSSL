@@ -9,7 +9,7 @@ namespace EspNow{
     void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len){
 
         tokenize(incomingData, len);
-        lastReceived = micros();
+        lastTimeMessageReceived = micros();
 
         float calculateReceivedChecksum = message.linearVelocity_x + message.linearVelocity_y + message.angularVelocity;
         if(message.checksum == calculateReceivedChecksum){
@@ -82,10 +82,10 @@ namespace EspNow{
 
     bool isCommunicationLost(){
 
-        if((micros() - lastReceived) > comunicationTimeout){
+        if((micros() - lastTimeMessageReceived) > comunicationTimeout){
             Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Lost espNow Communication");
 
-            if((micros() - lastReceived) > resetTimeout){
+            if((micros() - lastTimeMessageReceived) > resetTimeout){
                 Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "ESP will restart");
 				ESP.restart();
             }

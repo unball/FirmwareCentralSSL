@@ -21,6 +21,9 @@ namespace constants {
     constexpr boolean I2C_DRIVER_ADDRESS_0 = 0x76;
     constexpr boolean I2C_DRIVER_ADDRESS_1 = 0x55;
 
+    // WiFi Comunication parameters
+    constexpr uint32_t COMMUNICATION_TIMEOUT = 1000; // ms
+    constexpr uint32_t RESET_ESP32_TIMEOUT = 2000; // ms
 }
 
 

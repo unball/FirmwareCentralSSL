@@ -30,9 +30,9 @@ namespace EspNow
     static uint8_t robotNumberId;
     static messageReceived message;
 
-    static uint32_t lastReceived;
-    static uint32_t comunicationTimeout = 1000;
-    static uint32_t resetTimeout = 2000;
+    static uint32_t lastTimeMessageReceived;
+    static uint32_t comunicationTimeout = constants::COMMUNICATION_TIMEOUT;
+    static uint32_t resetTimeout = constants::RESET_ESP32_TIMEOUT;
 
     static boolean isModuleDebugModeActive;
     static char* moduleName = "WiFi";
