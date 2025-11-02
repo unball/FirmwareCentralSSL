@@ -10,12 +10,79 @@ namespace Utils
 
         for(int i=0; i<numberSamples; i++){
             uint16_t ADCReading = analogRead(pin);
-            value = (ADCReading/constantes::RESOLUCAO_ADC_ESP32)*valueVoltage;
+            value = (ADCReading/constants::RESOLUTION_ADC_ESP32)*valueVoltage;
             sum += value;
         }
 
         return sum/numberSamples;
 
+    }
+
+    void printMessageSetupDebug(boolean isDebugModeActive, char* moduleName){
+        
+        if(isDebugModeActive){
+            Serial.print("Setup: ");
+            Serial.println(moduleName);
+        }
+
+    }
+
+    void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* variables, float var1, float var2, float var3){
+        
+        if(isDebugModeActive){
+            Serial.print("Executing ");
+            Serial.print("\t");
+            Serial.print(moduleName);
+            Serial.print("-");
+            Serial.print(variables);
+            Serial.print(": ");
+            Serial.print(var1,4);
+            Serial.print("\t");
+            Serial.print(var2,4);
+            Serial.print("\t");
+            Serial.println(var3,4);
+        }
+
+    }
+
+    void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* variables, float var1){
+        
+        if(isDebugModeActive){
+            Serial.print("Executing ");
+            Serial.print("\t");
+            Serial.print(moduleName);
+            Serial.print("-");
+            Serial.print(variables);
+            Serial.print(": ");
+            Serial.println(var1,4);
+        }
+
+    }
+
+    void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, char* message){
+        
+        if(isDebugModeActive){
+            Serial.print("Executing ");
+            Serial.print("\t");
+            Serial.print(moduleName);
+            Serial.print(": ");
+            Serial.println(message);
+        }
+        
+    }
+
+    void printMessageLoopDebug(boolean isDebugModeActive, char* moduleName, uint8_t pin, char* message){
+        
+        if(isDebugModeActive){
+            Serial.print("Executing ");
+            Serial.print("\t");
+            Serial.print(moduleName);
+            Serial.print(": ");
+            Serial.print(message);
+            Serial.print(" ");
+            Serial.println(pin);
+        }
+        
     }
 
 }

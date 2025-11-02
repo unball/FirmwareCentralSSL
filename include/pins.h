@@ -4,12 +4,15 @@
 
 namespace pins {
     
-    constexpr uint8_t MEDICAO_BATERIA = 34;
+    // Battery Measurement GPIO
+    constexpr uint8_t BATTERY_MEASUREMENT = 34;
 
-    constexpr uint8_t LED_RGB_VERMELHO = 22;
-    constexpr uint8_t LED_RGB_VERDE = 21;
-    constexpr uint8_t LED_RGB_AZUL = 19;
+    // RGB LED GPIO
+    constexpr uint8_t LED_RGB_RED = 22;
+    constexpr uint8_t LED_RGB_GREEN = 21;
+    constexpr uint8_t LED_RGB_BLUE = 19;
 
+    // Drivers Comunication GPIO
     constexpr uint8_t I2C_SDA = 13;
     constexpr uint8_t I2C_SCL = 15;
 }

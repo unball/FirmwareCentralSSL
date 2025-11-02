@@ -4,13 +4,17 @@
 #include <Arduino.h>
 #include <stdint-gcc.h>
 #include <Wire.h>
-#include "../../include/constantes.h"
+#include "Utils.hpp"
+#include "../../include/constants.h"
 #include "../../include/pins.h"
 
 namespace I2CDriver
 {
-    void setup();
-    void sendInfoToDriver(uint8_t addr, float u1, float u2);
+    void setup(boolean isDebugModeActive);
+    void sendInfoToDriver(uint8_t addr, float wheelVelocity0, float wheelVelocity1);
+
+    static boolean isModuleDebugModeActive;
+    static char* moduleName = "I2CDriver";
 }
 
 #endif // I2CDRIVER_H
