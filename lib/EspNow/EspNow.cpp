@@ -16,9 +16,7 @@ namespace EspNow{
         float calculateReceivedChecksum = message.linearVelocity_x + message.linearVelocity_y + message.angularVelocity;
         if(message.checksum == calculateReceivedChecksum){
             demultiplexReceivedMessage(message.linearVelocity_x, message.linearVelocity_y, message.angularVelocity);
-            if(isModuleDebugModeActive){
-                LEDs::turnLEDOnOff(true, pins::LED_RGB_BLUE);
-            }
+            LEDs::turnLEDOnOff(true, pins::LED_BOARD);
         }else{
             
             Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Erro checksum");
@@ -64,10 +62,10 @@ namespace EspNow{
 
             Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Lost espNow Communication");
 
-            if((millis() - lastTimeMessageReceived) > resetTimeout){
-                Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "ESP will restart");
-				ESP.restart();
-            }
+            // if((millis() - lastTimeMessageReceived) > resetTimeout){
+            //     Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "ESP will restart");
+			// 	ESP.restart();
+            // }
 
             return true;
         }
@@ -102,9 +100,11 @@ namespace EspNow{
         esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &messageToSend, sizeof(message_t));
         
         if (result == ESP_OK) {
+            LEDs::turnLEDOnOff(true, pins::LED_BOARD);
             Serial.println("Sent with success");
         }
         else {
+            LEDs::turnLEDOnOff(false, pins::LED_BOARD);
             Serial.println("Error sending the data");
         }
 

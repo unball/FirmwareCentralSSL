@@ -6,13 +6,15 @@
 #include "EspNow.hpp"
 #include "ExecutionManager.hpp"
 
-#define TRANSMITTER_CODE true
+#define TRANSMITTER_CODE false
 
 #if TRANSMITTER_CODE
   void setup(){
     Serial.begin(constants::SERIAL_FREQUENCY);
 
     EspNow::Transmitter::setupTransmitter(ExecutionManager::DEBUG_TRANSMITTER);
+    LEDs::setup(ExecutionManager::DEBUG_LEDs);
+
   }
 
   void loop()
@@ -20,10 +22,10 @@
 
     EspNow::message_t message = {
       .robotId = 0,
-      .linearVelocity_x = 10,
+      .linearVelocity_x = 20,
       .linearVelocity_y = 0,
       .angularVelocity = 0,
-      .checksum = 10,
+      .checksum = 20,
     }; 
 
     EspNow::Transmitter::executeTransmitter(message);
@@ -46,7 +48,7 @@
 
   uint32_t previousTimestamp_robot_move = 0;
   uint32_t previousTimestamp_i2c_driver = 0;
-  float* wheelsVelocities = new float[4] {1,2,3,4};
+  float* wheelsVelocities = new float[4] {10,15,20,25};
 
   uint32_t actualTimestamp = 0;
 
@@ -55,10 +57,9 @@
 
     actualTimestamp = micros();
 
-    if(ExecutionManager::DEBUG_ESPNOW){
-      if(EspNow::isCommunicationLost()){
-        LEDs::turnLEDOnOff(false, pins::LED_RGB_BLUE);
-      }
+    if(EspNow::isCommunicationLost()){
+      LEDs::turnLEDOnOff(false, pins::LED_BOARD);
+      wheelsVelocities = new float[4] {10,15,20,25};
     }
 
 

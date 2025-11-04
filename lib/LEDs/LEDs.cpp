@@ -13,6 +13,7 @@ namespace LEDs
         pinMode(pins::LED_RGB_RED, OUTPUT);
         pinMode(pins::LED_RGB_BLUE, OUTPUT);
         pinMode(pins::LED_RGB_GREEN, OUTPUT);
+        pinMode(pins::LED_BOARD, OUTPUT);
 
         Utils::printMessageSetupDebug(isModuleDebugModeActive, moduleName);
     }

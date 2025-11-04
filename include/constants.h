@@ -6,7 +6,7 @@ namespace constants {
 
     // Robot parameters
     constexpr uint8_t ROBOT_NUMBER = 0;
-    constexpr float ROBOT_WHEELS_RADIUS = 0.5; // m
+    constexpr float ROBOT_WHEELS_RADIUS = 0.0675; // m
     constexpr float ROBOT_WHEELS_ANGLE_FRONT = 0.698132; // rad
     constexpr float ROBOT_WHEELS_ANGLE_BACK = 0.785398; // rad
     constexpr float ROBOT_MAX_WHEEL_VELOCITY = 50; // rad/s

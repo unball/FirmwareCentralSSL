@@ -19,8 +19,8 @@ namespace I2CDriver
 
     void sendInfoToDriver(float* wheelsVelocities){
         
-        String wheelsDriver0 = String(wheelsVelocities[0]) + "," + String(wheelsVelocities[1]) + '\n'; 
-        String wheelsDriver1 = String(wheelsVelocities[2]) + "," + String(wheelsVelocities[3]) + '\n'; 
+        String wheelsDriver0 = "D0" + String(wheelsVelocities[0],2) + "," + String(wheelsVelocities[1],2); 
+        String wheelsDriver1 = "D1" + String(wheelsVelocities[2],2) + "," + String(wheelsVelocities[3],2); 
 
         driver0Serial.println(wheelsDriver0);
         driver1Serial.println(wheelsDriver1);

@@ -11,6 +11,8 @@ namespace pins {
     constexpr uint8_t LED_RGB_RED = 22;
     constexpr uint8_t LED_RGB_GREEN = 21;
     constexpr uint8_t LED_RGB_BLUE = 19;
+    constexpr uint8_t LED_BOARD = 2;
+    
 
     // Drivers Comunication GPIO
     constexpr uint8_t UART_RX_0 = 13;
