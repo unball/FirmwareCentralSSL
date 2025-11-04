@@ -6,10 +6,11 @@ namespace constants {
 
     // Robot parameters
     constexpr uint8_t ROBOT_NUMBER = 0;
-    constexpr float ROBOT_WHEELS_RADIUS = 0; // mm?
-    constexpr float ROBOT_WHEELS_ANGLE_FRONT = 40; // graus
-    constexpr float ROBOT_WHEELS_ANGLE_BACK = 45; // graus
-    
+    constexpr float ROBOT_WHEELS_RADIUS = 0.5; // m
+    constexpr float ROBOT_WHEELS_ANGLE_FRONT = 0.698132; // rad
+    constexpr float ROBOT_WHEELS_ANGLE_BACK = 0.785398; // rad
+    constexpr float ROBOT_MAX_WHEEL_VELOCITY = 50; // rad/s
+
     // Execution parameters
     constexpr int SERIAL_FREQUENCY = 115200;
 
@@ -21,13 +22,11 @@ namespace constants {
     constexpr float MEASUREMENT_BATTERY_MAX_VALUE_TRANSFORMATION = 12.2;
 
     // Drivers Comunication parameters
-    constexpr uint32_t I2C_FREQUENCY = 400000UL;
-    constexpr boolean I2C_DRIVER_ADDRESS_0 = 0x76;
-    constexpr boolean I2C_DRIVER_ADDRESS_1 = 0x55;
+    constexpr uint32_t UART_FREQUENCY = 9600;
 
     // WiFi Comunication parameters
-    constexpr uint32_t COMMUNICATION_TIMEOUT = 1000; // ms
-    constexpr uint32_t RESET_ESP32_TIMEOUT = 2000; // ms
+    constexpr uint32_t COMMUNICATION_TIMEOUT = 5000; // ms
+    constexpr uint32_t RESET_ESP32_TIMEOUT = 10000; // ms
 }
 
 

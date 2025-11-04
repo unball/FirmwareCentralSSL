@@ -30,10 +30,10 @@ namespace Utils
     void printMessageSetupDebug(boolean isDebugModeActive, char* moduleName, char* message){
         
         if(isDebugModeActive){
-            Serial.print("Setup Error: ");
-            Serial.print("\t");
+            Serial.print("Setup: ");
+            Serial.print(" ");
             Serial.print(moduleName);
-            Serial.print("\t - ");
+            Serial.print(" - ");
             Serial.println(message);
 
         }
@@ -43,10 +43,9 @@ namespace Utils
     void printMessageSetupDebug(boolean isDebugModeActive, char* moduleName, String message){
         
         if(isDebugModeActive){
-            Serial.print("Setup Error: ");
-            Serial.print("\t");
+            Serial.print("Setup : ");
             Serial.print(moduleName);
-            Serial.print("\t - ");
+            Serial.print(" - ");
             Serial.println(message);
 
         }
@@ -57,15 +56,14 @@ namespace Utils
         
         if(isDebugModeActive){
             Serial.print("Executing ");
-            Serial.print("\t");
             Serial.print(moduleName);
-            Serial.print("-");
+            Serial.print(" - ");
             Serial.print(variables);
-            Serial.print(": ");
+            Serial.print(" : ");
             Serial.print(var1,4);
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(var2,4);
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.println(var3,4);
         }
 
@@ -75,11 +73,11 @@ namespace Utils
         
         if(isDebugModeActive){
             Serial.print("Executing ");
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(moduleName);
-            Serial.print("-");
+            Serial.print(" - ");
             Serial.print(variables);
-            Serial.print(": ");
+            Serial.print(" : ");
             Serial.println(var1,4);
         }
 
@@ -89,9 +87,9 @@ namespace Utils
         
         if(isDebugModeActive){
             Serial.print("Executing ");
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(moduleName);
-            Serial.print(": ");
+            Serial.print(" : ");
             Serial.println(message);
         }
         
@@ -101,9 +99,9 @@ namespace Utils
         
         if(isDebugModeActive){
             Serial.print("Executing ");
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(moduleName);
-            Serial.print(": ");
+            Serial.print(" : ");
             Serial.print(message);
             Serial.print(" ");
             Serial.println(pin);
@@ -115,17 +113,17 @@ namespace Utils
         
         if(isDebugModeActive){
             Serial.print("Executing ");
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(moduleName);
-            Serial.print("-");
+            Serial.print(" - ");
             Serial.print(variables);
-            Serial.print(": ");
+            Serial.print(" : ");
             Serial.print(var1,4);
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(var2,4);
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.print(var3,4);
-            Serial.print("\t");
+            Serial.print(" ");
             Serial.println(var4,4);
 
 

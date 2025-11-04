@@ -13,8 +13,10 @@ namespace pins {
     constexpr uint8_t LED_RGB_BLUE = 19;
 
     // Drivers Comunication GPIO
-    constexpr uint8_t I2C_SDA = 13;
-    constexpr uint8_t I2C_SCL = 15;
+    constexpr uint8_t UART_RX_0 = 13;
+    constexpr uint8_t UART_TX_0 = 15;
+    constexpr uint8_t UART_RX_1 = 17;
+    constexpr uint8_t UART_TX_1 = 16;
 }
 
 

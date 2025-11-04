@@ -33,12 +33,15 @@ namespace RobotMove{
     }
 
     float* calculateWheelVelocities(){
-        float* wheelVelocities = new float[4];
+        float* wheelVelocities = new float[4] {0,0,0,0};
         robotVelocities[2] = R*robotVelocities[2];
 
         for(int i=0; i<4; i++){
             for(int j=0; j<3; j++){
-                wheelVelocities[i] = D[i][j]*robotVelocities[j];
+                wheelVelocities[i] += D[i][j]*robotVelocities[j];
+                if(wheelVelocities[i] > constants::ROBOT_MAX_WHEEL_VELOCITY){
+                    wheelVelocities[i] = constants::ROBOT_MAX_WHEEL_VELOCITY;
+                }
             }
         }
 

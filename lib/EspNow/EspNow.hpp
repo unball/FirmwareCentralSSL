@@ -1,5 +1,5 @@
-#ifndef WIFI_H
-#define WIFI_H
+#ifndef ESP_NOW_H
+#define ESP_NOW_H
 
 #include <Arduino.h>
 #include <Wire.h>
@@ -9,6 +9,7 @@
 #include "../../include/constants.h"
 #include "Utils.hpp"
 #include "RobotMove.hpp"
+#include "LEDs.hpp"
 
 namespace EspNow
 {   
@@ -17,9 +18,8 @@ namespace EspNow
     void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len);
     void demultiplexReceivedMessage(float linearVelocity_x,float linearVelocity_y, float angularVelocity);
     bool isCommunicationLost();
-    void tokenize(const uint8_t *data,int len);
 
-    struct messageReceived{
+    struct message_t{
         int8_t robotId;
         float linearVelocity_x;
         float linearVelocity_y;
@@ -27,14 +27,22 @@ namespace EspNow
         int32_t checksum;
     };
     static uint8_t robotNumberId;
-    static messageReceived message;
+    static message_t message;
 
-    static uint32_t lastTimeMessageReceived;
     static uint32_t comunicationTimeout = constants::COMMUNICATION_TIMEOUT;
     static uint32_t resetTimeout = constants::RESET_ESP32_TIMEOUT;
 
+    namespace Transmitter{
+        static uint8_t broadcastAddress[] = {0xA0, 0xDD, 0x6C, 0x04, 0xBA, 0x0C};
+        static esp_now_peer_info_t peerInfo;
+
+        void setupTransmitter(boolean isDebugModeActive);
+        void executeTransmitter(message_t messageToSend);
+        void onDataSent(const uint8_t *macAddress, esp_now_send_status_t status);
+    }
+
     static boolean isModuleDebugModeActive;
-    static char* moduleName = "WiFi";
+    static char* moduleName = "WiFi - EspNow ";
 }
 
-#endif // WIFI_H
+#endif // ESP_NOW_H
