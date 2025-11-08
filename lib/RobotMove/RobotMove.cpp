@@ -39,10 +39,18 @@ namespace RobotMove{
         for(int i=0; i<4; i++){
             for(int j=0; j<3; j++){
                 wheelVelocities[i] += D[i][j]*robotVelocities[j];
-                if(wheelVelocities[i] > constants::ROBOT_MAX_WHEEL_VELOCITY){
+                if(abs(wheelVelocities[i]) > constants::ROBOT_MAX_WHEEL_VELOCITY){
                     wheelVelocities[i] = constants::ROBOT_MAX_WHEEL_VELOCITY;
                 }
+                if(abs(wheelVelocities[i]) <= 0.2 ){
+                    wheelVelocities[i] = 0;
+                }
             }
+        }
+
+        for(int j=0; j<4; j++){
+            wheelVelocities[j] *= -1;
+            
         }
 
         Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Velocidades do robô", robotVelocities[0], robotVelocities[1], robotVelocities[2]);

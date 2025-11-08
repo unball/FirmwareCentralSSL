@@ -1,6 +1,6 @@
-#include "I2CDriver.hpp"
+#include "UARTDriver.hpp"
 
-namespace I2CDriver
+namespace UARTDriver
 {
     void setIsModuleDebugModeActive(boolean isDebugModeActive){
         isModuleDebugModeActive = isDebugModeActive;

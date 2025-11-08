@@ -1,5 +1,5 @@
-#ifndef I2CDRIVER_H
-#define I2CDRIVER_H
+#ifndef UARTDRIVER_H
+#define UARTDRIVER_H
 
 #include <Arduino.h>
 #include <stdint-gcc.h>
@@ -8,7 +8,7 @@
 #include "../../include/constants.h"
 #include "../../include/pins.h"
 
-namespace I2CDriver
+namespace UARTDriver
 {
     void setup(boolean isDebugModeActive);
     void sendInfoToDriver(float* wheelsVelocities);
@@ -17,7 +17,7 @@ namespace I2CDriver
     static HardwareSerial driver1Serial(2);
 
     static boolean isModuleDebugModeActive;
-    static char* moduleName = "I2CDriver";
+    static char* moduleName = "UARTDriver";
 }
 
-#endif // I2CDRIVER_H
+#endif // UARTDRIVER_H
