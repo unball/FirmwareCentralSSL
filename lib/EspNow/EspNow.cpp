@@ -95,19 +95,31 @@ namespace EspNow{
 
     }
 
-    void Transmitter::executeTransmitter(message_t messageToSend){
+    void Transmitter::executeTransmitter(){
+        if (Serial.available()) {
+            keyboard_state_t newKeyboardState = {0};
+            Serial.readBytes((uint8_t *) &newKeyboardState, sizeof(newKeyboardState));
 
-        esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &messageToSend, sizeof(message_t));
+            int changed = 0;
+            if(keyboardState.x != newKeyboardState.x) changed = 1;
+            if(keyboardState.y != newKeyboardState.y) changed = 1;
+            if(keyboardState.clockwise_rotation != newKeyboardState.clockwise_rotation) changed = 1;
+
+            keyboardState = newKeyboardState;
+
+            if(changed) {
+                esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &keyboardState, sizeof(keyboardState));
         
-        if (result == ESP_OK) {
-            LEDs::turnLEDOnOff(true, pins::LED_BOARD);
-            Serial.println("Sent with success");
+                if (result == ESP_OK) {
+                    LEDs::turnLEDOnOff(true, pins::LED_BOARD);
+                    Serial.println("Sent with success");
+                }
+                else {
+                    LEDs::turnLEDOnOff(false, pins::LED_BOARD);
+                    Serial.println("Error sending the data");
+                }
+            }
         }
-        else {
-            LEDs::turnLEDOnOff(false, pins::LED_BOARD);
-            Serial.println("Error sending the data");
-        }
-
         delay(3);
     }
 

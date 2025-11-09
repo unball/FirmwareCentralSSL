@@ -28,6 +28,13 @@ namespace EspNow
     };
     static uint8_t robotNumberId;
     static message_t message;
+    
+    struct keyboard_state_t {
+        unsigned int x:2;
+        unsigned int y:2;
+        unsigned int clockwise_rotation:2;
+    };
+    static keyboard_state_t keyboardState = {0};
 
     static uint32_t comunicationTimeout = constants::COMMUNICATION_TIMEOUT;
     static uint32_t resetTimeout = constants::RESET_ESP32_TIMEOUT;
@@ -37,7 +44,7 @@ namespace EspNow
         static esp_now_peer_info_t peerInfo;
 
         void setupTransmitter(boolean isDebugModeActive);
-        void executeTransmitter(message_t messageToSend);
+        void executeTransmitter();
         void onDataSent(const uint8_t *macAddress, esp_now_send_status_t status);
     }
 

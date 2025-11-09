@@ -19,16 +19,7 @@
 
   void loop()
   {
-
-    EspNow::message_t message = {
-      .robotId = 0,
-      .linearVelocity_x = 0,
-      .linearVelocity_y = 0,
-      .angularVelocity = 60,
-      .checksum = 60,
-    }; 
-
-    EspNow::Transmitter::executeTransmitter(message);
+    EspNow::Transmitter::executeTransmitter();
   }
 
 #else
