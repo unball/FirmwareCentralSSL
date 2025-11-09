@@ -11,6 +11,9 @@ namespace constants {
     constexpr float ROBOT_WHEELS_ANGLE_BACK = 0.785398; // rad
     constexpr float ROBOT_MAX_WHEEL_VELOCITY = 50; // rad/s
 
+    constexpr float ANGULAR_SPEED = 30.0f;
+    constexpr float SPEED = 30.0f;
+
     // Execution parameters
     constexpr int SERIAL_FREQUENCY = 115200;
 

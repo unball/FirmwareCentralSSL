@@ -9,19 +9,27 @@ namespace EspNow{
     }
 
     void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len){
-
-        memcpy(&message, incomingData, sizeof(message_t));
+        memcpy(&keyboardState, incomingData, sizeof(keyboard_state_t));
         lastTimeMessageReceived = millis();
 
-        float calculateReceivedChecksum = message.linearVelocity_x + message.linearVelocity_y + message.angularVelocity;
-        if(message.checksum == calculateReceivedChecksum){
+        // float calculateReceivedChecksum = message.linearVelocity_x + message.linearVelocity_y + message.angularVelocity;
+        // if (message.checksum == calculateReceivedChecksum) {
+            message = {
+                .robotId = 0,
+                .linearVelocity_x = keyboardState.x == 2 ? constants::SPEED
+                                : (keyboardState.x == 0 ? -constants::SPEED : 0),
+                .linearVelocity_y = keyboardState.y == 2 ? constants::SPEED
+                                : (keyboardState.y == 0 ? -constants::SPEED : 0),
+                .angularVelocity = keyboardState.clockwise_rotation == 2 ? constants::ANGULAR_SPEED
+                                : (keyboardState.clockwise_rotation == 0 ? -constants::ANGULAR_SPEED : 0),
+                .checksum = 0,
+            }; 
+
             demultiplexReceivedMessage(message.linearVelocity_x, message.linearVelocity_y, message.angularVelocity);
             LEDs::turnLEDOnOff(true, pins::LED_BOARD);
-        }else{
-            
-            Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Erro checksum");
-        }
-
+        // } else {
+        //     Utils::printMessageLoopDebug(isModuleDebugModeActive, moduleName, "Erro checksum");
+        // }
     }
 
     void setup(boolean isDebugModeActive, uint8_t robotNumber){
