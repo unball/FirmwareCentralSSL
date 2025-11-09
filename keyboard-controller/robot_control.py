@@ -26,12 +26,12 @@ class KeyboardController:
         
         # Initialize serial connection
         try:
+            self._serial_port = port
+            self._serial_baudrate = baudrate
             self._serial = serial.Serial(port, baudrate, timeout=0.01)
-            self._serial.read
             print("Connected to serial port")
         except serial.SerialException as e:
             print(f"Warning: Could not open serial port {port}")
-            print(e)
             self._serial = None
 
         self.changed = False
@@ -97,6 +97,13 @@ class KeyboardController:
 
     def _send_loop(self) -> None:
         while self._running:
+            if self._serial is None:
+                try:
+                    self._serial = serial.Serial(self._serial_port, self._serial_baudrate, timeout=0.01)
+                    print("Connected to serial port")
+                except:
+                    time.sleep(0.5)
+                    continue
             try:
                 # Convert -1/0/1 to 0/1/2 for encoding
                 x_enc = (self.x + 1) & 0x3  # 2 bits
@@ -106,17 +113,19 @@ class KeyboardController:
                 # Pack into single byte: 00RRYYXX
                 byte = (rot_enc << 4) | (y_enc << 2) | x_enc
                 
-                if self._serial:
+                if self._serial and self._serial.is_open:
                     self._serial.write(bytes([byte]))
                     if self._serial.readable():
                         response = self._serial.readline()
                         if response != b'':
                             print(response)
+                            
                 if self.changed:
                     print(f"Sending byte: {bin(byte)[2:]:0>8}")
                     self.changed = False
             except Exception as e:
-                print(f"Error sending: {e}")
+                print(f"Error sending: {e}, closing")
+                self._serial = None
             time.sleep(0.001)
 
     @staticmethod
