@@ -19,7 +19,11 @@ class KeyboardController:
             "d": 0,
             "q": 0,
             "e": 0,
+            "p": 0,
         }
+        self.restart = 0
+        self.speed = 10
+        self.angular_speed = 20
         self.x = 0
         self.y = 0
         self.rotation_clockwise = 0
@@ -67,6 +71,8 @@ class KeyboardController:
         if k == "esc":
             self.stop()
             return
+        elif k == "p":
+            print('Robot is restarting')
         with self._lock:
             if k in self._key_map:
                 self._key_map[k] = 1
@@ -92,6 +98,7 @@ class KeyboardController:
 
         self.x = lx
         self.y = ly
+        self.restart = 1 if self._key_map["p"] else 0
         self.rotation_clockwise = rotation_clockwise
         self.changed = True
 
@@ -106,12 +113,13 @@ class KeyboardController:
                     continue
             try:
                 # Convert -1/0/1 to 0/1/2 for encoding
+                on_enc = self.restart & 0x1  # 1 bit
                 x_enc = (self.x + 1) & 0x3  # 2 bits
                 y_enc = (self.y + 1) & 0x3  # 2 bits
                 rot_enc = (self.rotation_clockwise + 1) & 0x3  # 2 bits
                 
-                # Pack into single byte: 00RRYYXX
-                byte = (rot_enc << 4) | (y_enc << 2) | x_enc
+                # Pack into single byte: 0PRRYYXX
+                byte = (on_enc << 6) | (rot_enc << 4) | (y_enc << 2) | x_enc
                 
                 if self._serial and self._serial.is_open:
                     self._serial.write(bytes([byte]))

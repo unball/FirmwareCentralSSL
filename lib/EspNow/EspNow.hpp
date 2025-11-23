@@ -21,6 +21,7 @@ namespace EspNow
 
     struct message_t{
         int8_t robotId;
+        uint8_t command;
         float linearVelocity_x;
         float linearVelocity_y;
         float angularVelocity;
@@ -33,8 +34,10 @@ namespace EspNow
         unsigned int x:2;
         unsigned int y:2;
         unsigned int clockwise_rotation:2;
+        unsigned int restart:1;
     };
     static keyboard_state_t keyboardState = {0};
+    uint32_t previousTimestampCommandSent = 0;
 
     static uint32_t comunicationTimeout = constants::COMMUNICATION_TIMEOUT;
     static uint32_t resetTimeout = constants::RESET_ESP32_TIMEOUT;

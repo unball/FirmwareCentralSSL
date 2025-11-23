@@ -1,4 +1,5 @@
 #include "EspNow.hpp"
+#include "ExecutionManager.hpp"
 
 namespace EspNow{
 
@@ -12,10 +13,18 @@ namespace EspNow{
         memcpy(&keyboardState, incomingData, sizeof(keyboard_state_t));
         lastTimeMessageReceived = millis();
 
+        if(keyboardState.restart == 1){
+            RobotMove::setRobotVelocities(0,0,0);
+            LEDs::turnLEDOnOff(false, pins::LED_BOARD);
+            ESP.restart();
+            return;
+        }
+
         // float calculateReceivedChecksum = message.linearVelocity_x + message.linearVelocity_y + message.angularVelocity;
         // if (message.checksum == calculateReceivedChecksum) {
             message = {
                 .robotId = 0,
+                .command = 0,
                 .linearVelocity_x = keyboardState.x == 2 ? constants::SPEED
                                 : (keyboardState.x == 0 ? -constants::SPEED : 0),
                 .linearVelocity_y = keyboardState.y == 2 ? constants::SPEED
@@ -23,7 +32,9 @@ namespace EspNow{
                 .angularVelocity = keyboardState.clockwise_rotation == 2 ? constants::ANGULAR_SPEED
                                 : (keyboardState.clockwise_rotation == 0 ? -constants::ANGULAR_SPEED : 0),
                 .checksum = 0,
-            }; 
+            };
+
+            
 
             demultiplexReceivedMessage(message.linearVelocity_x, message.linearVelocity_y, message.angularVelocity);
             LEDs::turnLEDOnOff(true, pins::LED_BOARD);
@@ -105,6 +116,8 @@ namespace EspNow{
 
     void Transmitter::executeTransmitter(){
         if (Serial.available()) {
+            uint32_t actualTimestamp = micros();
+
             keyboard_state_t newKeyboardState = {0};
             Serial.readBytes((uint8_t *) &newKeyboardState, sizeof(newKeyboardState));
 
@@ -112,15 +125,17 @@ namespace EspNow{
             if(keyboardState.x != newKeyboardState.x) changed = 1;
             if(keyboardState.y != newKeyboardState.y) changed = 1;
             if(keyboardState.clockwise_rotation != newKeyboardState.clockwise_rotation) changed = 1;
+            if(keyboardState.restart != newKeyboardState.restart) changed = 1;
 
             keyboardState = newKeyboardState;
 
-            if(changed) {
+            if(changed || (actualTimestamp - previousTimestampCommandSent) > ExecutionManager::SAMPLE_TIME_ROBOT_MOVE / 2){
                 esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &keyboardState, sizeof(keyboardState));
         
                 if (result == ESP_OK) {
                     LEDs::turnLEDOnOff(true, pins::LED_BOARD);
                     Serial.println("Sent with success");
+                    previousTimestampCommandSent = actualTimestamp;
                 }
                 else {
                     LEDs::turnLEDOnOff(false, pins::LED_BOARD);
